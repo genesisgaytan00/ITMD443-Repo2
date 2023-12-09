@@ -9,17 +9,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./path/to/your/project
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js version
         uses: actions/setup-node@v1
         with:
           node-version: '14'
+
+      - name: Set up project path
+        run: echo "PROJECT_PATH=${{ github.workspace }}" >> $GITHUB_ENV
+
+      - name: Change working directory
+        run: cd ${{ env.PROJECT_PATH }}
 
       - name: npm install, build, and test
         run: |
